@@ -1,0 +1,119 @@
+
+/* This is a comment.
+    It can span many lines in a CSS file. */
+
+/* unvisited link */
+a:link{
+	color: #FF0000; 
+}  */
+/* visited link */
+a:visited{
+	color: #00FF00; 
+} 
+/* mouse over link */  
+ a:hover{ 
+	color: #FF00FF; 
+} 
+
+/* CCS width and height */
+h1, h2{
+    background-color:lightblue;
+    color: blue;
+    font-family: Georgia, 'Times New Roman', Times, serif; 
+}
+span{
+    background-color: white;
+}
+img{
+    width:50%;
+}
+
+/* Margin and padding */
+h2{
+    margin-left: 30px;
+    /* padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px; */
+}
+
+/* Border */
+#pokemon_pic{
+    width: 25%;
+    border: 5px dotted lightblue;
+    /* border-radius: 80px;
+    vertical-align: middle; */
+}
+
+/* Block: center */
+ul{
+    font-family: Garamond, "Times New Roman", serif; 
+    font-size: 20pt;
+    font-weight: bold;
+    font-style: italic;
+    /* margin: auto;
+    width: 200px; */
+}
+
+/*#pokemon_pic{
+    float: right;
+} */
+
+/* Position property */
+.parent{
+    text-align: left;
+}
+
+.div_display{
+    border: 2px solid turquoise;
+    width: 200px;
+    display: inline-block; 
+}
+
+#one{
+    position:relative;
+    top: 20px;
+    left: 20px; 
+}
+
+/* Flexible box */
+.flex_container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: rgb(240, 233, 141);
+    /* justify-content: center; */
+}
+
+.flex_container > div{
+    border: 2px solid turquoise;
+    width: 400px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+/* สัปดาห์ที่ 2 */
+.left_page{
+    text-align: left;
+}
+
+div{
+    text-align: center;
+}
+
+div a{
+    font-size: 30px;
+    font-weight: bold;
+    color: blue;
+}
+
+th{
+    text-decoration: underline;
+}
+
+hr{
+    height: 30px;
+    color: lightblue;
+    background-color: lightblue;
+    border: none;
+}
+
