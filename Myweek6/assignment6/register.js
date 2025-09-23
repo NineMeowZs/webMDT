@@ -38,3 +38,5 @@ function valitForm() {
 
     return true; // ไป login.html ได้
 }
+
+//ไปใส่ URLParameter มาด้วยนะ

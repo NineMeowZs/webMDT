@@ -56,13 +56,6 @@ input[type="date"] {
   border-radius: 8px;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="date"]:focus {
-  border-color: #6a82fb;
-}
-
 /* ปุ่ม */
 input[type="submit"],
 input[type="reset"] {
