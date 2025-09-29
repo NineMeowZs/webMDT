@@ -17,13 +17,20 @@
     width: 25px;
     height: 25px;
     border: 3px solid black;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.square:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
 }
 
 .maroon{
-    background-color: maroon; 
+    background-color: rgb(38, 218, 128); 
 }
 .lightgreen{
-    background-color: lightgreen; 
+    background-color: rgb(213, 118, 247); 
 }
 
 .magenta{

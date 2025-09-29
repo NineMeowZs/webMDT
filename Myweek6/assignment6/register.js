@@ -1,7 +1,6 @@
-window.onload = pageLoad;
+window.onload = pageLoad; 
 
 function pageLoad(){
-    // ผูกฟังก์ชัน valitForm ตอนกด submit
     let form = document.getElementById("myRegister");
     form.onsubmit = valitForm;
 }
@@ -26,17 +25,14 @@ function valitForm() {
         return false;
     }
 
-    // ตรวจสอบ password ตรงกัน
+    // ตรวจสอบ password ว่าตรงกัน
     if(password !== repassword){
         errormsg.innerHTML = "รหัสผ่านบ่ตรงกัน อ้ายมั่วบ่นิ";
         return false;
     }
 
-    // เก็บ username + password ไว้ใน localStorage
-    localStorage.setItem("username", username);
-    localStorage.setItem("password", password);
+    // ส่งไปหน้า login โดยส่ง username + password ผ่าน URL parameter
+    window.location.href = "login.html?username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password);
 
-    return true; // ไป login.html ได้
+    return false; 
 }
-
-//ไปใส่ URLParameter มาด้วยนะ
