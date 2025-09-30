@@ -13,10 +13,9 @@ function startGame(){
 function timeStart(){
 	var TIMER_TICK = 1000;
 	var timer = null;
-	var min = 0.5; // 0.5 minute
+	var min = 0.5; // 0.5 นาที
 	var second = min*60; 
 	var x = document.getElementById('clock');
-	//setting timer using setInterval function
 	timer = setInterval(timeCount, TIMER_TICK);
 	
 	function timeCount(){

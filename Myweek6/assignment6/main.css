@@ -1,9 +1,8 @@
-/* รีเซ็ตค่าเริ่มต้นบางส่วน */
 * {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* จัดให้อยู่กลางจอ */
+/* ให้ทั้งอันอยู่ Center */
 body {
   display: flex;
   justify-content: center;
