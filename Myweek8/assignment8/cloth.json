@@ -1,10 +1,47 @@
 {
-	"top1":{
-		"brand": "A.K.O.O Clothing",
-		"price":"200",
-		"img":"clothes1.jpg"},
-	"top2":{
-		"brand": "B.K.T Clothing",
-		"price":"500",
-		"img":"clothes2.jpg"}
+    "top1": {
+        "brand": "A.K.O.O Clothing",
+        "price": "200",
+        "img": "clothes1.jpg"
+    },
+    "top2": {
+        "brand": "Abercrombie & Fitch",
+        "price": "300",
+        "img": "clothes.2.jpg"
+    },
+    "top3": {
+        "brand": "Gap Inc",
+        "price": "400",
+        "img": "clothes3.jpg"
+    },
+    "top4": {
+        "brand": "Strap Black",
+        "price": "450",
+        "img": "clothes4.jpg"
+    },
+    "top5": {
+        "brand": "Chi Song So",
+        "price": "250",
+        "img": "clothes5.jpg"
+    },
+    "top6": {
+        "brand": "Sea Thy to the Sky",
+        "price": "320",
+        "img": "clothes6.jpg"
+    },
+    "top7": {
+        "brand": "Chistmas Come along",
+        "price": "550",
+        "img": "clothes7.jpg"
+    },
+    "top8": {
+        "brand": "Sritanonchai",
+        "price": "180",
+        "img": "clothes8.jpg"
+    },
+    "top9": {
+        "brand": "Vampire Survivor",
+        "price": "600",
+        "img": "clothes9.jpg"
+    }
 }

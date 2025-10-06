@@ -1,10 +1,10 @@
 window.onload = pageLoad;
 
-function pageLoad(){
-	
-}
+function pageLoad() {
 
-function showData(data){
-	
 }
+function showData(data) {
+  
+
+    }
 

@@ -1,0 +1,85 @@
+* {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ให้ทั้งอันอยู่ Center */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:#aaebff;
+}
+
+/* กล่องฟอร์ม */
+form {
+    margin-top:  2%;
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 15px;
+  width: 40%;
+}
+
+/* หัวข้อ */
+legend {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4a4a4a;
+}
+
+fieldset {
+  border: none;
+}
+
+/* require หัวบน */
+span {
+  color: #e63946;
+  font-size: 0.9rem;
+}
+
+/* ข้อความ error */
+#errormsg {
+  color: #e63946;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+/* label + input */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* ปุ่ม */
+input[type="submit"],
+input[type="reset"] {
+  width: 40%;
+  padding: 10px;
+  margin: 10px 1%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+input[type="submit"] {
+  background: #6a82fb;
+  color: white;
+}
+
+input[type="submit"]:hover {
+  background: #4658d0;
+}
+
+input[type="reset"] {
+  background: #ccc;
+}
+
+input[type="reset"]:hover {
+  background: #999;
+}

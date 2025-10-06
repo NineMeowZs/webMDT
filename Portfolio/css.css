@@ -1,0 +1,271 @@
+/* css.css */
+
+/* การตั้งค่าพื้นฐาน */
+* {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box; /* ทำให้ padding และ border ไม่เพิ่มขนาดขององค์ประกอบ */
+}
+
+/* ส่วน Body - จัดให้อยู่ตรงกลางหน้าจอ */
+body {
+    background: #aaebff; /* สีพื้นหลัง */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* จัดเรียงองค์ประกอบในแนวดิ่ง */
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* -------------------- Navigation Bar -------------------- */
+header {
+    width: 80%;
+    max-width: 1000px;
+    margin-bottom: 20px;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: flex-start;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* -------------------- กล่อง Portfolio หลัก -------------------- */
+.portfolio-container {
+    /* ใช้แทน form เดิมของคุณเพื่อให้เป็นกล่องหลัก */
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 1000px; /* กำหนดขนาดสูงสุด */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* -------------------- ส่วนหัวข้อและรูปภาพ (Layout) -------------------- */
+.profile-header {
+    display: flex;
+    justify-content: space-between; /* กระจายเนื้อหากับรูปภาพ */
+    align-items: flex-start;
+    gap: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.header-info {
+    flex-grow: 1;
+}
+
+.profile-photo-container {
+    /* ส่วนนี้ควบคุมตำแหน่งรูปภาพทางขวา */
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.profile-image {
+    width: 150px; /* กำหนดขนาดรูปภาพ */
+    height: 150px;
+    border-radius: 50%; /* ทำให้เป็นวงกลม */
+    object-fit: cover;
+    border: 5px solid #007bff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.user-icon {
+    margin-left: auto; 
+}
+
+.user-icon img {
+    width: 30px; 
+    height: 30px;
+    border-radius: 50%; 
+    border: 2px solid white;
+}
+
+h1 {
+    color: #4658d0;
+    font-size: 2.2rem;
+    margin-top: 0;
+}
+
+h2 {
+    color: #4a4a4a;
+    font-size: 1.5rem;
+    border-left: 5px solid #6a82fb; /* ขีดเน้นหัวข้อ */
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #ccc, rgba(0, 0, 0, 0));
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: '➡️ '; /* เปลี่ยนสัญลักษณ์นำหน้า */
+    padding-left: 20px;
+}
+
+/* -------------------- Social Links -------------------- */
+.social-links {
+    margin-top: 15px;
+}
+
+.social-link {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.youtube {
+    background-color: #ff0000;
+    color: white;
+}
+
+.tiktok {
+    background-color: #000000;
+    color: white;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.button {
+    /* ... สไตล์พื้นฐาน ... */
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #6cace8;
+    color: #f4f4f9;
+}
+.button:hover {
+    background: #6c7be8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* -------------------- ส่วนรายละเอียด -------------------- */
+.details-section {
+    display: flex;
+    flex-wrap: wrap; /* ให้ขึ้นบรรทัดใหม่เมื่อไม่พอ */
+    gap: 20px;
+}
+
+.detail-block {
+    flex: 1 1 45%; /* ให้แต่ละบล็อกกินพื้นที่ประมาณ 45% (2 คอลัมน์) */
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+}
+
+/* css.css - เพิ่มโค้ดเหล่านี้เข้าไปในไฟล์เดิมของคุณ */
+
+.video-gallery {
+    display: flex;
+    flex-direction: column; /* จัดเรียงวิดีโอในแนวดิ่ง */
+    gap: 40px; /* ระยะห่างระหว่างคลิปแต่ละรายการ */
+    margin-top: 30px;
+}
+
+.video-item {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.video-title {
+    color: #007bff;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    border-left: 5px solid #6a82fb;
+    padding-left: 10px;
+}
+
+.video-description, .video-tools {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* ทำให้วิดีโอแบบ Embed (iframe) ตอบสนองต่อขนาดหน้าจอ (Responsive) */
+.video-embed-container {
+    position: relative;
+    width: 100%;
+    /* ให้อัตราส่วน 16:9 (ความสูง 56.25% ของความกว้าง) */
+    padding-bottom: 56.25%; 
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.video-embed-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+
+/* -------------------- Responsive Design -------------------- */
+@media (max-width: 768px) {
+    .portfolio-container, header {
+        width: 95%;
+    }
+
+    .profile-header {
+        flex-direction: column; /* เปลี่ยนให้รูปภาพอยู่ด้านบนข้อมูลในมือถือ */
+        align-items: center;
+        text-align: center;
+    }
+
+    .header-info {
+        text-align: center;
+    }
+    
+    .profile-photo-container {
+        order: -1; /* สั่งให้รูปภาพขึ้นไปอยู่บนสุด */
+        margin-bottom: 15px;
+    }
+    
+    .details-section {
+        flex-direction: column; /* เปลี่ยนเป็น 1 คอลัมน์ */
+    }
+    
+    .detail-block {
+        flex: 1 1 100%;
+    }
+}

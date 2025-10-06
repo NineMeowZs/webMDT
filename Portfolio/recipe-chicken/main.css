@@ -1,0 +1,90 @@
+body
+{
+background-color: rgb(238, 238, 238);
+}
+
+h1 
+{
+    color: rgb(10, 25, 39);
+    font-family: Garamond, "Times New Roman", serif;
+    font-size: 60px;
+    text-align: center;
+    margin: 0%;
+    width: 50%;
+    justify-self: center;
+}
+
+span
+{
+    background-color:rgb(252, 157, 131);
+    color: rgb(10, 25, 39);
+    font-family: Garamond, "Times New Roman", serif;
+    font-size: 60px;
+    text-align: center;
+    margin: 0%;
+    width: 50%;
+    justify-self: center;
+}
+
+h2
+{
+padding: 20px;
+font-size: 40px;
+margin: 0%;
+background-color: rgb(146, 192, 206);
+color: rgb(31, 47, 61);
+margin-top: 1%;
+margin-bottom: 1%;
+display:flex ;
+}
+
+li
+{
+    color: rgb(10, 25, 39);
+    font-family: Garamond, "Times New Roman", serif;
+        font-size: 30px;
+}
+
+.div_display {
+    border: 5px solid rgb(139, 109, 221);
+    display: block; 
+    width: fit-content; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    /*กรอบรูปเล็ก*/
+}
+
+.div_display2 { 
+    border: 9px solid rgb(119, 187, 207);
+    display: inline-block;
+    float: right; 
+    margin-top: 2%;
+    margin-bottom: 4%;
+} /*instruction*/
+
+.div_display3 {
+    border: 5px solid rgb(226, 90, 181);
+    display: flex;
+    justify-content: center; 
+    gap: 10px; 
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    margin-bottom: 1%;
+}  /*กรอบรูปใหญ่*/
+
+.div_display img,
+.div_display2 img,
+.div_display3 img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+ a:hover{ 
+	color: #507096; 
+} 
