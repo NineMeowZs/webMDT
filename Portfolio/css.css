@@ -20,7 +20,7 @@ body {
 /* -------------------- Navigation Bar -------------------- */
 header {
     width: 80%;
-    max-width: 1000px;
+    max-width: 1400px;
     margin-bottom: 20px;
     background-color: #007bff;
     padding: 10px 20px;
@@ -54,8 +54,8 @@ nav a:hover {
     background: #fff;
     padding: 2rem;
     border-radius: 15px;
-    width: 80%;
-    max-width: 1000px; /* กำหนดขนาดสูงสุด */
+    width: 90%;
+    max-width: 1400px; /* กำหนดขนาดสูงสุด */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -114,6 +114,17 @@ h2 {
     padding-left: 10px;
     margin-top: 20px;
 }
+h3{
+    color: #302b2b;
+    font-size: 1rem;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+h4{
+    color: #302b2b;
+    font-size: 0.9rem;
+    padding-left: 15px;
+}
 
 hr {
     border: 0;
@@ -149,6 +160,10 @@ ul {
 
 .tiktok {
     background-color: #000000;
+    color: white;
+}
+.Facebook {
+    background-color: #3373eb;
     color: white;
 }
 
@@ -204,6 +219,7 @@ ul {
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
 
 .video-title {
     color: #007bff;
