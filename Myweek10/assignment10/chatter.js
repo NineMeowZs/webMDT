@@ -32,23 +32,38 @@ function sendMsg(){
 	writeLog(text);
 }
 
-//ทำให้สมบูรณ์
-const writeLog = (async (msg) => {
-	let d = new Date();
-	// สร้าง JS object ที่เก็บข้อมูลของข้อความ
-	// และเวลาที่ส่งข้อความ ให้ทำตาม format ดังนี้
-	
-	// body: JSON.stringify({
-	// 	time: d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
-	// 	user:username,
-	// 	message:msg});
-	
-});
+// ส่งข้อความไปยัง server
+const writeLog = async (msg) => {
+  let d = new Date();
+  try {
+    await fetch('/outmsg', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        time: d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+        user: username,
+        message: msg,
+      }),
+    });
+  } catch (err) {
+    console.error("Error sending message :", err);
+  }
+};
 
-//ทำให้สมบูรณ์
-const readLog = (async () => {
-	
-})
+// อ่านข้อความจาก server
+const readLog = async () => {
+  try {
+    const response = await fetch('/inmsg');
+    const data = await response.json();
+    postMsg(data);
+  } catch (err) {
+    console.error("Error reading log :", err);
+  }
+};
+
 
 // รับ msg ที่เป็น JS object ที่อ่านมาได้จาก file
 function postMsg(msg){
