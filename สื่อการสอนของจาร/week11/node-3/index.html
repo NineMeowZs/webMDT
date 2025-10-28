@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Login</title>
+		<link type="text/css" rel="stylesheet" href="index.css">
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<div id=container>
+			
+			<form class="form" action="/showname" method="post" accept-charset="utf-8">
+				<fieldset>
+					<legend> Enter Your Name </legend>
+					Name:<input type="text" name="name" value="" placeholder="" ><br>
+					<input type="submit" value="Submit">
+				</fieldset>
+			</form>
+
+			<form class="form" action="/cookies" method="get">
+				<fieldset>
+					<legend>Cookies</legend>
+					<input type="submit" value="Set Cookies">
+				</fieldset>
+			</form>
+
+			<form class="form" action="/uppic" method="post" id="formId" enctype="multipart/form-data">
+				<fieldset>
+					<legend> Upload Image</legend>
+					<input type="file" name="avatar" > <br>
+					<input type="submit" value="Upload">
+				</fieldset>
+			</form>
+		</div>
+	
+	</body>
+</html>

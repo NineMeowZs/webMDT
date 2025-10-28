@@ -15,7 +15,7 @@ function setUsername(){
 	 username = x.value;
 	var x = document.getElementById("username");
 	x.innerHTML = username;
-	timer = setInterval (loadLog, 3000);//Reload file every 3000 ms
+	timer = setInterval (loadLog, 3000);
 	document.getElementById("submitmsg").disabled = false;
 	document.getElementById("clickok").disabled = true;
 	readLog();
@@ -65,7 +65,7 @@ const readLog = async () => {
 };
 
 
-// รับ msg ที่เป็น JS object ที่อ่านมาได้จาก file
+// รับ message ที่เป็น JS object ที่อ่านมาได้จาก file
 function postMsg(msg){
 	var x = document.getElementById("chatbox");
 	while(x.firstChild){

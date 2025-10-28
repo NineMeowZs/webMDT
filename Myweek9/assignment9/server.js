@@ -1,72 +1,82 @@
-const fs = require('fs').promises; // ใช้ promises version ของ fs
 const http = require('http');
+const fs = require('fs');
 
 const hostname = 'localhost';
 const port = 3000;
-
-// ฟังก์ชันแก้ไข JSON
-const editJsonFile = (data) => {
-  const n_stock = {
-    item1: 12,
-    item2: 13,
-    item3: 50,
-    item4: 22,
-    item5: 55,
-    item6: 87,
-    item7: 12,
-    item8: 29,
-    item9: 10,
-  };
-
-  const obj = JSON.parse(data);
-
-  // เพิ่มจำนวนสินค้าเข้าไปในแต่ละ item
-  for (let key in obj) {
-    if (n_stock[key] !== undefined) {
-      obj[key].stock = n_stock[key];
-    }
-  }
-
-  return obj;
-};
-
-// ฟังก์ชันหลัก ใช้ Promise chain
-const readAndWriteFile = () => {
-  console.log("แก้ไขข้อมูลสักครู่");
-
-  return fs.readFile('cloth1.json', 'utf-8')
-    .then((data) => {
-      const newData = editJsonFile(data);
-      const jsonString = JSON.stringify(newData, null, 2);
-
-      return fs.writeFile('new_cloth.json', jsonString)
-        .then(() => newData);
-    })
-    .catch((err) => {
-      console.error("Error:", err);
-      throw err;
-    });
-};
-
-// สร้าง server
 const server = http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+    
+    //อ่านไฟล์ก่อนจึงอีดีท แล้วทำไรท์ไฟล์เพิ่ม และจึงแสดงผล
+        readFile()
+        .then(data => {
+            return editJsonData(data);
+        })
+        .then(data => {
+            return writeFile(data);
+        })
+        .then(finalData => {
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify(finalData, null, 2));
+        })
+        .catch(err => {
+            console.error("มี Error เกิดขึ้้น :", err); 
+            res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+            res.end("Server Error : " + err);
+        });
 
-  readAndWriteFile()
-    .then((data) => {
-      res.write("<h1>แก้ไขไฟล์ละ</h1>");
-      res.write("<h2>ข้อมูลที่อัปเดตแล้ว :</h2>");
-      res.write("<pre>" + JSON.stringify(data, null, 2) + "</pre>");
-      res.end();
-    })
-    .catch((err) => {
-      res.write("<h1>Error อะพี่ชาย :</h1>");
-      res.write("<pre>" + err.message + "</pre>");
-      res.end();
-    });
 });
+//อ่านไฟล์
+let readFile = () => {
+    return new Promise((resolve, reject) => {
+        fs.readFile('cloth1.json', 'utf8', (err, data) => {
+            if (err) {
+                reject("อ่านไฟล์ cloth1.json ไม่ได้");
+            } else {
+                resolve(JSON.parse(data)); 
+            }
+        });
+    });
+};
+
+//ใช้ Promise เติมข้อมูล item
+let editJsonData = (clothesData) => {
+    return new Promise((resolve, reject) => {
+        const stockInfo = 
+        {
+            item1: 12, 
+            item2: 13, 
+            item3: 50, 
+            item4: 22, 
+            item5: 55,
+            item6: 87, 
+            item7: 12, 
+            item8: 29, 
+            item9: 10
+        };
+        //ทุก ๆ คีย์ไอเทมแต่ละตัวไล่ไป ให้เติม stock item ไปในข้อมูลนั้นด้วย 
+        for (const key in clothesData) {
+            if (stockInfo[key]) {
+                clothesData[key].stock = stockInfo[key];
+            }
+        }
+        resolve(clothesData); 
+    });
+};
+
+//เขียนไฟล์เพิ่มแบบมีข้อมูล Stock แล้ว
+let writeFile = (modifiedData) => {
+    return new Promise((resolve, reject) => {
+        const jsonString = JSON.stringify(modifiedData, null, 2);
+        fs.writeFile('new_cloth.json', jsonString, (err) => {
+            if (err) {
+                reject("ไม่สามารถเขียนไฟล์ new.cloth.json ได้");
+            } else {
+                resolve(modifiedData); 
+            }
+        });
+    });
+};
+
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-  console.log(`กรุณาเข้าถึง URL นี้ใน Browser: http://${hostname}:${port}/`);
-});
+    console.log(`Server running at http://${hostname}:${port}/`);
+});    

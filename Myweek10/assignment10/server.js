@@ -9,18 +9,18 @@ app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// 🟢 อ่านจากไฟล์ log.json
+// อ่านจากไฟล์ log.json
 app.get('/inmsg', async (req, res) => {
   try {
     const data = await readMsg();
     res.json(data);
   } catch (err) {
-    console.error("❌ Error reading file:", err);
+    console.error("Error reading file:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// 🟢 รับข้อความใหม่จาก user และบันทึก
+// รับข้อความใหม่จาก user และบันทึก
 app.post('/outmsg', async (req, res) => {
   try {
     const new_msg = req.body;
@@ -29,12 +29,12 @@ app.post('/outmsg', async (req, res) => {
     await writeMsg(updated);
     res.json({ status: "ok" });
   } catch (err) {
-    console.error("❌ Error writing file:", err);
+    console.error("Error writing file:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// 📘 อ่านไฟล์ JSON
+// อ่านไฟล์ JSON
 const readMsg = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -46,7 +46,7 @@ const readMsg = () => {
   });
 };
 
-// ✏️ อัปเดตข้อความในไฟล์
+// อัปเดตข้อความในไฟล์
 const updateMsg = (new_msg, data1) => {
   return new Promise((resolve, reject) => {
     try {
@@ -60,7 +60,7 @@ const updateMsg = (new_msg, data1) => {
   });
 };
 
-// 💾 เขียนไฟล์กลับไปที่ log.json
+// เขียนไฟล์กลับไปที่ log.json
 const writeMsg = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
