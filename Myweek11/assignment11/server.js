@@ -26,20 +26,21 @@ const storage = multer.diskStorage({
     }
   });
 
+  const imageFilter = (req, file, cb) => { // นี่คือการประกาศตัวแปร imageFilter
+    // Accept images only
+    if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+        req.fileValidationError = 'Only image files are allowed!';
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+
   const upload = multer({ 
     storage: storage, 
     fileFilter: imageFilter,
     // กำหนด single('avatar') ที่นี่เพื่อให้ใช้ได้ใน /profilepic
   }).single('avatar'); 
 
-  const imageFilter = (req, file, cb) => {
-    // Accept images only
-    if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) { // ตรวจสอบชนิดไฟล์
-        req.fileValidationError = 'Only image files are allowed!';
-        return cb(new Error('Only image files are allowed!'), false);
-    }
-    cb(null, true);
-};
 
 
 app.post('/profilepic', (req,res) => {

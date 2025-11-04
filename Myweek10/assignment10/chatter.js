@@ -15,7 +15,7 @@ function setUsername(){
 	 username = x.value;
 	var x = document.getElementById("username");
 	x.innerHTML = username;
-	timer = setInterval (loadLog, 3000);
+	timer = setInterval (loadLog, 3000);//Reload file every 3000 ms
 	document.getElementById("submitmsg").disabled = false;
 	document.getElementById("clickok").disabled = true;
 	readLog();
@@ -26,7 +26,7 @@ function loadLog(){
 }
 
 function sendMsg(){
-	//get msg
+	//รับ messages
 	var text = document.getElementById("userMsg").value;
 	document.getElementById("userMsg").value = "";
 	writeLog(text);
