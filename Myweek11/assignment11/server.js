@@ -1,33 +1,40 @@
+// server.js (ASSIGNMENT 11 - JSON File Based)
+
 const express = require('express');
 const app = express();
 const fs = require('fs');
 const hostname = 'localhost';
-const port = 3000;
+const port = 3000; 
 const bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser'); // Import cookie-parser
-const multer = require('multer');
+var cookieParser = require('cookie-parser');
+const multer = require('multer'); // ต้องติดตั้ง: npm install multer
 const path = require('path');
 
-app.use(express.static(__dirname));
+// 💡 1. กำหนดให้ Express ให้บริการไฟล์ Static จาก Root Directory
+app.use(express.static(__dirname)); 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser()); // Use cookie-parser
+app.use(cookieParser()); 
+
+// 💡 2. Multer Setup: โฟลเดอร์ img/profile/
+const uploadDir = 'img/profile/';
+if (!fs.existsSync(uploadDir)) {
+    // สร้างโฟลเดอร์ img/profile/ หากยังไม่มี
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-      callback(null, 'img/'); 
+      callback(null, uploadDir); // บันทึกใน img/profile/
     },
-
     filename: (req, file, cb) => {
-        // ใช้ username ที่เก็บใน cookie มาตั้งชื่อไฟล์เพื่อให้ไม่ซ้ำและอ้างอิงง่าย
-        // req.cookies.username จะใช้ได้หลังจาก checkLogin สำเร็จ
-        const username = req.cookies.username || 'default';
-        cb(null, username + path.extname(file.originalname)); 
+        // ตั้งชื่อไฟล์ใหม่ให้ไม่ซ้ำ
+        cb(null, 'avatar-' + req.cookies.username + '-' + Date.now() + path.extname(file.originalname));
     }
-  });
+});
 
-  const imageFilter = (req, file, cb) => { // นี่คือการประกาศตัวแปร imageFilter
-    // Accept images only
+const imageFilter = (req, file, cb) => {
+    // กรองเฉพาะไฟล์รูปภาพ
     if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
         req.fileValidationError = 'Only image files are allowed!';
         return cb(new Error('Only image files are allowed!'), false);
@@ -35,135 +42,184 @@ const storage = multer.diskStorage({
     cb(null, true);
 };
 
-  const upload = multer({ 
-    storage: storage, 
-    fileFilter: imageFilter,
-    // กำหนด single('avatar') ที่นี่เพื่อให้ใช้ได้ใน /profilepic
-  }).single('avatar'); 
+const upload = multer({ storage: storage, fileFilter: imageFilter }).single('avatar');
 
+// ---------------------------------------------
+// Helper Functions (อ่าน/เขียนไฟล์ JSON)
+// ---------------------------------------------
 
+const readJson = (file_name) => {
+    try {
+        const filePath = path.join(__dirname, file_name); 
+        const data = fs.readFileSync(filePath, 'utf8');
+        return JSON.parse(data);
+    } catch(err) {
+        console.error(`Error reading ${file_name}:`, err.message);
+        return {}; 
+    }
+}
 
+const writeJson = (data, file_name) => {
+    try {
+        const filePath = path.join(__dirname, file_name); 
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+        return true;
+    } catch(err) {
+        console.error(`Error writing ${file_name}:`, err.message);
+        return false;
+    }
+}
+
+// 💡 3. อัปเดตชื่อไฟล์รูปภาพใน userDB.json
+const updateImg = async (username, fileimg) => {
+    let userData = readJson('userDB.json');
+    // ค้นหา key ของ user ปัจจุบัน
+    const userKey = Object.keys(userData).find(key => userData[key].username === username);
+
+    if (userKey) {
+        // อัพเดต field 'img' ใน userDB.json (ใช้ 'img' ตาม userDB.json เดิม)
+        userData[userKey].img = fileimg; 
+        return writeJson(userData, 'userDB.json');
+    }
+    return false;
+}
+
+// ---------------------------------------------
+// Routing
+// ---------------------------------------------
+
+// POST /profilepic: Upload รูปและอัพเดต userDB.json
 app.post('/profilepic', (req,res) => {
-    // ใช้ upload middleware ที่กำหนดไว้ด้านบน
-    upload(req, res, async (err) => {
-        if (req.fileValidationError) {
-            console.log(req.fileValidationError);
-            return res.redirect('/feed.html'); 
-        } else if (!req.file) {
-            console.log('Please select an image to upload');
-            return res.redirect('/feed.html');
-        } else if (err instanceof multer.MulterError) {
-            console.log(err);
-            return res.redirect('/feed.html');
-        } else if (err) {
-            console.log(err);
-            return res.redirect('/feed.html');
+    const username = req.cookies.username;
+    if (!username) {
+        return res.redirect('/login.html');
+    }
+
+    upload(req, res, async (err) => { 
+        if (req.fileValidationError || !req.file || err) {
+            // หากเกิด Error จาก Multer (เช่น ไม่ใช่ไฟล์รูป)
+            console.error("Upload Error:", req.fileValidationError || (err ? err.message : 'No file selected'));
+            return res.redirect('/feed.html?error=upload'); 
         }
-
-        // หากอัปโหลดสำเร็จ
-        const username = req.cookies.username;
-        const filename = req.file.filename;
-
-        // อัปเดต userDB.json ด้วยชื่อไฟล์ใหม่
-        await updateImg(username, filename);
         
-        return res.redirect('/feed.html'); // redirect กลับไปหน้า feed.html
+        const uploadedFilename = req.file.filename;
+
+        // 1. อัพเดต userDB.json
+        const dbUpdated = await updateImg(username, uploadedFilename);
+
+        if (dbUpdated) {
+            // 2. อัพเดต cookie 'img' ด้วยชื่อไฟล์ใหม่
+            const maxAge = 24 * 60 * 60 * 1000;
+            res.cookie('img', uploadedFilename, { maxAge: maxAge }); 
+            
+            // 3. Redirect กลับไป feed.html
+            return res.redirect('/feed.html'); 
+        } else {
+             console.error("Failed to update user DB for profile pic.");
+             return res.redirect('/feed.html?error=dbupdate');
+        }
     });
- });
+})
+// POST /checkLogin: ตรวจสอบ Login
+app.post('/checkLogin', async (req,res) => {
+    const { username, password } = req.body;
+    const userData = readJson('userDB.json');
 
+    const userKey = Object.keys(userData).find(key => 
+        userData[key].username === username && userData[key].password === password
+    );
 
-// ถ้าต้องการจะลบ cookie ให้ใช้
-// res.clearCookie('username');
+    if (userKey) {
+        const maxAge = 24 * 60 * 60 * 1000; 
+        const user = userData[userKey];
+        
+        // Set cookies 
+        res.cookie('username', username, { maxAge: maxAge }); 
+        res.cookie('img', user.img || 'avatar.png', { maxAge: maxAge });
+        
+        return res.redirect('feed.html');
+    } else {
+        return res.redirect('index.html?error=1');
+    }
+})
+
+// GET /logout: ลบ Cookie
 app.get('/logout', (req,res) => {
-    res.clearCookie('username'); // ลบคุ้กกี้ 'username'
+    res.clearCookie('username');
+    res.clearCookie('img');
     return res.redirect('index.html');
 })
 
-
+// GET /readPost: อ่าน PostDB.json
 app.get('/readPost', async (req,res) => {
-    const postData = await readJson('js/postDB.json');
-    // ส่งข้อมูล Post ทั้งหมดกลับไปให้ client
-    res.json(postData); 
+    const postData = readJson('postDB.json');
+    return res.json(postData);
 })
 
-
+// POST /writePost: บันทึก Post
 app.post('/writePost',async (req,res) => {
-    const { msg } = req.body;
-    const username = req.cookies.username;
-
+    const msg = req.body.msg; 
+    const username = req.cookies.username; 
+    
     if (!username || !msg) {
-        return res.status(400).json({ success: false, message: 'Invalid request' });
+        return res.status(400).json({ success: false, message: 'Invalid data or not logged in.' });
     }
 
-    const postData = await readJson('js/postDB.json');
-    
-    // สร้าง post object ใหม่
+    let postData = readJson('postDB.json');
+    const newPostId = 'post' + (Object.keys(postData).length + 1);
     const newPost = {
-        username: username,
-        msg: msg,
+        user: username,
+        message: msg,
         timestamp: new Date().toISOString()
     };
-    
-    // เพิ่ม post ใหม่เข้าไปใน array
-    postData.push(newPost);
+    postData[newPostId] = newPost; 
 
-    // เขียน array ที่อัปเดตแล้วกลับไปที่ไฟล์
-    await writeJson(postData, 'js/postDB.json');
-
-    res.json({ success: true, post: newPost });
-})
-
-
-app.post('/checkLogin',async (req,res) => {
-    const { username, password } = req.body;
-    const userData = await readJson('js/userDB.json');
-
-    // ตรวจสอบ username และ password ใน userData
-    const user = userData.find(u => u.username === username && u.password === password);
-
-    if (user) {
-        // ถ้าเช็คแล้ว username และ password ถูกต้อง
-        res.cookie('username', username, { maxAge: 3600000, httpOnly: true, path: '/' }); // ตั้งค่า cookie
-        return res.redirect('feed.html');
+    if (writeJson(postData, 'postDB.json')) {
+        return res.json({ success: true, message: 'Post successful.' });
     } else {
-        // ถ้าเช็คแล้ว username และ password ไม่ถูกต้อง
-        return res.redirect('index.html?error=1')
+        return res.status(500).json({ success: false, message: 'Failed to save post.' });
     }
 })
 
-
-const readJson = async (file_name) => {
-    try {
-        const data = await fs.promises.readFile(file_name, 'utf8'); // อ่านไฟล์
-        return JSON.parse(data); // แปลงเป็น object/array
-    } catch (err) {
-        console.error(`Error reading ${file_name}:`, err);
-        return []; // คืนค่าเป็น array เปล่าหากเกิดข้อผิดพลาดในการอ่าน
+// POST /profilepic: Upload รูปและอัพเดต userDB.json
+app.post('/profilepic', (req,res) => {
+    const username = req.cookies.username;
+    if (!username) {
+        return res.redirect('/index.html');
     }
-}
+
+    upload(req, res, async (err) => { 
+        if (req.fileValidationError || !req.file || err) {
+            const errorMsg = req.fileValidationError || (err ? err.message : 'Please select an image to upload.');
+            // Note: ใน Assignment นี้ สั่งให้ redirect เลย
+            return res.redirect('/feed.html?error=upload'); 
+        }
+        
+        const uploadedFilename = req.file.filename;
+
+        // 1. อัพเดต userDB.json
+        const dbUpdated = await updateImg(username, uploadedFilename);
+
+        if (dbUpdated) {
+            // 2. อัพเดต cookie
+            const maxAge = 24 * 60 * 60 * 1000;
+            res.cookie('img', uploadedFilename, { maxAge: maxAge }); 
+            
+            // 3. Redirect กลับไป feed.html
+            return res.redirect('/feed.html'); 
+        } else {
+             return res.send('Upload success, but failed to update user profile in DB.');
+        }
+    });
+})
+
+// GET /: Redirect ไปหน้า Login
+app.get('/', (req, res) => {
+    res.redirect('/index.html'); 
+});
 
 
-const writeJson = async (data, file_name) => {
-    try {
-        const jsonString = JSON.stringify(data, null, 4); // แปลงเป็น JSON string (pretty print)
-        await fs.promises.writeFile(file_name, jsonString, 'utf8'); // เขียนไฟล์
-    } catch (err) {
-        console.error(`Error writing ${file_name}:`, err);
-    }
-}
-
-
-const updateImg = async (username, fileimg) => {
-    const userData = await readJson('js/userDB.json');
-    const userIndex = userData.findIndex(u => u.username === username);
-
-    if (userIndex !== -1) {
-        // อัปเดตชื่อไฟล์รูปโปรไฟล์
-        userData[userIndex].profilepic = fileimg; // แก้ไขข้อมูลใน userDB.json
-        await writeJson(userData, 'js/userDB.json');
-    }
-}
-
+// Start Server
  app.listen(port, hostname, () => {
-        console.log(`Server running at   http://${hostname}:${port}/`);
+        console.log(`Server running at http://${hostname}:${port}/`);
 });
