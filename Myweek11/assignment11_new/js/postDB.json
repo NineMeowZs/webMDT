@@ -1,0 +1,34 @@
+{
+  "post1": {
+    "user": "mario",
+    "message": "gugugaga"
+  },
+  "post2": {
+    "user": "mario",
+    "message": "dd"
+  },
+  "post3": {
+    "user": "luigi",
+    "message": "daad"
+  },
+  "post4": {
+    "user": "mario",
+    "message": "dada"
+  },
+  "post5": {
+    "user": "mario",
+    "message": "dadad"
+  },
+  "post6": {
+    "user": "mario",
+    "message": "dada"
+  },
+  "post7": {
+    "user": "mario",
+    "message": "adadd"
+  },
+  "post8": {
+    "user": "mario",
+    "message": "addaadda"
+  }
+}

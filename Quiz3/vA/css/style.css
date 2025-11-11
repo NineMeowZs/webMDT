@@ -1,0 +1,22 @@
+body {
+            /* background: url('https://cdn.pixabay.com/photo/2018/11/13/18/05/html-3813614_960_720.jpg') no-repeat center center; */
+            /* background-size: cover; */
+            /* height: 100vh; */
+            font-family: 'Arial', sans-serif;
+        }
+    
+    .table td, .table th {
+      vertical-align: middle;
+      
+    }
+    .editable {
+      border: 1px solid #ddd;
+      padding: 5px;
+    }
+    .editable:focus {
+      outline: blue;
+      border: 3px solid #5b9bd5;
+    }
+    
+	table{background:#ffffff; width:100%;}
+	/* .thead, .tbody{width:100%; display:block;} */
